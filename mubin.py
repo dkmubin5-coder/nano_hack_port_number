@@ -1,10 +1,19 @@
-#This is a simple conditional script
-port = int(input("Enter port number:"))
-if port == 8080:
-    print("This HTTP port This is commonly used for web servers: 8080")
+import socket
+import sys
 
-elif port == 443:
-    print("This HTTPS port This is commonly used for secure web servers: 443")
+#Specify the target host and port range
+host = input("Enter target (iP) address sent:")
+start_port = int(input("Enter start port number:"))
+end_port = int(input("Enter end port number:"))
 
-else:
-    print("This port is not specifically recognized by the port number:", port)
+print(f"Scanning started on ports {host} from {start_port} to {end_port}")
+
+#prot scanning loop
+for port in range(start_port, end_port + 1):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket.setdefaulttimeout(1)
+    result = s.connect_ex((host, port))
+
+    if result == 0:
+        print(f"Port {port} is open")
+        s.close()
